@@ -82,6 +82,15 @@ class TestMaskUtils(object):
             assert unwrap(mask.getTheT()) is None
             assert unwrap(mask.getTextValue()) is None
 
+    def test_mask_from_binary_full_image(self, binary_image):
+        binim = np.ones((4, 4))
+        mask = mask_from_binary_image(binim)
+
+        assert unwrap(mask.getWidth()) == 4
+        assert unwrap(mask.getHeight()) == 4
+        assert np.array_equal(mask.getBytes(),
+                              np.array([255, 255], dtype=np.uint8))
+
     @pytest.mark.parametrize('args', [
         {},
         {'rgba': (255, 128, 64, 128), 'z': 1, 'c': 2, 't': 3, 'text': 'test'}

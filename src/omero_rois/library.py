@@ -71,7 +71,8 @@ def mask_from_binary_image(
         y0 = min(ymask)
         h = max(ymask) - y0 + 1
         submask = binim[y0:(y0 + h), x0:(x0 + w)]
-        if not np.array_equal(np.unique(submask), [0, 1]):
+        if (not np.array_equal(np.unique(submask), [0, 1]) and not
+                np.array_equal(np.unique(submask), [1])):
             raise InvalidBinaryImage()
     else:
         if raise_on_no_mask:
