@@ -1,0 +1,6 @@
+*.pyc
+*.egg
+.eggs/
+build/
+dist/
+.omero
