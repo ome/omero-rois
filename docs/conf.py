@@ -24,7 +24,7 @@ copyright = u'2019, Open Microscopy Environment'
 author = u'Open Microscopy Environment'
 
 # The short X.Y version
-version = u'0.2.0'
+version = u'0.3.0.dev0'
 # The full version, including alpha/beta/rc tags
 release = version
 
