@@ -50,6 +50,7 @@ def mask_from_binary_image(
         raise_on_no_mask=True):
     """
     Create a mask shape from a binary image (background=0)
+
     :param numpy.array binim: Binary 2D array, must contain values [0, 1] only
     :param rgba int-4-tuple: Optional (red, green, blue, alpha) colour
     :param z: Optional Z-index for the mask
@@ -62,6 +63,7 @@ def mask_from_binary_image(
     :raises NoMaskFound: If no labels were found
     :raises InvalidBinaryImage: If the maximum labels is greater than 1
     """
+
     # Find bounding box to minimise size of mask
     xmask = binim.sum(0).nonzero()[0]
     ymask = binim.sum(1).nonzero()[0]
@@ -114,6 +116,7 @@ def masks_from_label_image(
         raise_on_no_mask=True):
     """
     Create mask shapes from a label image (background=0)
+
     :param numpy.array labelim: 2D label array
     :param rgba int-4-tuple: Optional (red, green, blue, alpha) colour
     :param z: Optional Z-index for the mask
@@ -123,6 +126,7 @@ def masks_from_label_image(
     :param raise_on_no_mask: If True (default) throw an exception if no mask
            found, otherwise return an empty Mask
     :return: A list of OMERO masks in label order ([] if no labels found)
+
     """
     masks = []
     for i in xrange(1, labelim.max() + 1):
