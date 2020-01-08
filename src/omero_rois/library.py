@@ -129,7 +129,7 @@ def masks_from_label_image(
 
     """
     masks = []
-    for i in xrange(1, labelim.max() + 1):
+    for i in range(1, labelim.max() + 1):
         mask = mask_from_binary_image(labelim == i, rgba, z, c, t, text,
                                       raise_on_no_mask)
         masks.append(mask)
