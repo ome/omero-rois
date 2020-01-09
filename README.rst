@@ -12,8 +12,7 @@ OMERO Python utilities for handling regions of interest (ROIs).
 Requirements
 ============
 
-* OMERO 5.4.0 or newer
-* Python 2.7
+* OMERO 5.6.0 or newer
 
 Installing from PyPI
 ====================
@@ -52,4 +51,4 @@ licensed under the terms of the GNU General Public License (GPL) v2 or later.
 Copyright
 ---------
 
-2019, The Open Microscopy Environment
+2019-2020, The Open Microscopy Environment

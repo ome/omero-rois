@@ -8,5 +8,4 @@ TARGET=${TARGET:-..}
 cd $TARGET
 
 export OMERO_DIST=${OMERO_DIST:-/opt/omero/server/OMERO.server}
-export PYTHONPATH=${OMERO_DIST}/lib/python
-python setup.py test -t test -i ${OMERO_DIST}/etc/ice.config -v
+/opt/omero/server/venv3/bin/python3 setup.py test -t test -i ${OMERO_DIST}/etc/ice.config -v
