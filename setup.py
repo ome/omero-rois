@@ -126,7 +126,7 @@ setup(
     download_url='%s/v%s.tar.gz' % (url, version),
     keywords=['OMERO.CLI', 'plugin'],
     install_requires=[
-        'omero-py>=5.6.dev9'
+        'omero-py>=5.6.0',
         ],
     python_requires='>=3',
     cmdclass={'test': PyTest},
