@@ -137,34 +137,33 @@ def masks_from_label_image(
 
 
 def masks_from_3d_label_image(
-      planes, rgba=None, c=None, t=None, text=None,
-      raise_on_no_mask=True):
+      planes, rgba=None, z=None, c=None, z_stack=True, t=None, text=None):
     """
-    Create mask shapes from a 3d label image (background=0)
+    Create mask shapes from a 3d label image, either z stack or timepoints,
+    grouped by label ID (background=0)
 
     :param list of numpy.array planes: list of 2D label arrays in z order
     :param rgba int-4-tuple: Optional (red, green, blue, alpha) colour
+    :param z: Optional Z-index for the mask
     :param c: Optional C-index for the mask
     :param t: Optional T-index for the mask
+    :param z_stack: Flag if the planes represent a z stack, timepoints
+                    otherwise (default: True)
     :param text: Optional text for the mask
-    :param raise_on_no_mask: If True (default) throw an exception if no mask
-           found, otherwise return an empty Mask
     :return: A dictionary of OMERO masks with the labels as keys
            ({} if no labels found)
 
     """
-    maxlabel = 1
-    for plane in planes:
-        pmax = plane.max()
-        if pmax > maxlabel:
-            maxlabel = pmax
-
     masks = {}
-    for label in range(1, maxlabel + 1):
-        label_masks = []
-        for z, plane in enumerate(planes):
-            mask = mask_from_binary_image(plane == label, rgba, z, c, t, text,
-                                          raise_on_no_mask)
-            label_masks.append(mask)
-        masks[label] = label_masks
+    for i, plane in enumerate(planes):
+        if z_stack:
+            plane_masks = masks_from_label_image(plane, rgba, i, c, t,
+                                                 text, False)
+        else:
+            plane_masks = masks_from_label_image(plane, rgba, z, c, i,
+                                                 text, False)
+        for label, mask in enumerate(plane_masks):
+            if not label in masks:
+                masks[label] = []
+            masks[label].append(mask)
     return masks
