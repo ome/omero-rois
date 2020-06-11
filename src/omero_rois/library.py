@@ -163,7 +163,7 @@ def masks_from_3d_label_image(
             plane_masks = masks_from_label_image(plane, rgba, z, c, i,
                                                  text, False)
         for label, mask in enumerate(plane_masks):
-            if not label in masks:
+            if label not in masks:
                 masks[label] = []
             masks[label].append(mask)
     return masks
