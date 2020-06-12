@@ -18,6 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import numpy as np
+from collections import defaultdict
 from omero.gateway import ColorHolder
 from omero.model import MaskI
 from omero.rtypes import (
@@ -154,7 +155,7 @@ def masks_from_3d_label_image(
            ({} if no labels found)
 
     """
-    masks = {}
+    masks = defaultdict(list)
     for i, plane in enumerate(planes):
         if z_stack:
             plane_masks = masks_from_label_image(plane, rgba, i, c, t,
@@ -163,8 +164,6 @@ def masks_from_3d_label_image(
             plane_masks = masks_from_label_image(plane, rgba, z, c, i,
                                                  text, False)
         for label, mask in enumerate(plane_masks):
-            if label not in masks:
-                masks[label] = []
             if mask.getBytes().any():
                 masks[label].append(mask)
     return masks
