@@ -165,6 +165,6 @@ def masks_from_3d_label_image(
         for label, mask in enumerate(plane_masks):
             if label not in masks:
                 masks[label] = []
-            if mask.getBytes().any(): # skip empty masks
+            if mask.getBytes().any():
                 masks[label].append(mask)
     return masks
