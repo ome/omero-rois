@@ -4,6 +4,10 @@
 .. image:: https://badge.fury.io/py/omero-rois.svg
     :target: https://badge.fury.io/py/omero-rois
 
+.. image:: https://readthedocs.org/projects/omero-rois/badge/?version=latest
+    :target: https://omero-rois.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 OMERO ROI utilities
 ===================
 
@@ -23,8 +27,13 @@ Install the command-line tool using `pip <https://pip.pypa.io/en/stable/>`_::
 
     $ pip install -U omero-rois
 
+Usage
+=====
+
+See https://omero-rois.readthedocs.io/en/stable/
+
 Release process
----------------
+===============
 
 This repository uses `bump2version <https://pypi.org/project/bump2version/>`_ to manage version numbers.
 To tag a release run::
@@ -43,12 +52,12 @@ Remember to ``git push`` all commits and tags.
 
 
 License
--------
+=======
 
 This project, similar to many Open Microscopy Environment (OME) projects, is
 licensed under the terms of the GNU General Public License (GPL) v2 or later.
 
 Copyright
----------
+=========
 
 2019-2020, The Open Microscopy Environment
