@@ -5,7 +5,9 @@ repos:
     hooks:
       - id: black
         args: [--target-version=py35]
-  - repo: https://gitlab.com/pycqa/flake8
+  # GitLab URLs must include the .git suffix
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/29629
+  - repo: https://gitlab.com/pycqa/flake8.git
     rev: 3.8.3
     hooks:
       - id: flake8
