@@ -32,7 +32,7 @@ class NoMaskFound(ValueError):
     Exception thrown when no foreground pixels were found in a mask
     """
 
-    def __init__(self, msg='No mask found'):
+    def __init__(self, msg="No mask found"):
         super(Exception, self).__init__(msg)
 
 
@@ -41,13 +41,13 @@ class InvalidBinaryImage(ValueError):
     Exception thrown when invalid labels are found
     """
 
-    def __init__(self, msg='Invalid labels found'):
+    def __init__(self, msg="Invalid labels found"):
         super(Exception, self).__init__(msg)
 
 
 def mask_from_binary_image(
-        binim, rgba=None, z=None, c=None, t=None, text=None,
-        raise_on_no_mask=True):
+    binim, rgba=None, z=None, c=None, t=None, text=None, raise_on_no_mask=True
+):
     """
     Create a mask shape from a binary image (background=0)
 
@@ -72,9 +72,10 @@ def mask_from_binary_image(
         w = max(xmask) - x0 + 1
         y0 = min(ymask)
         h = max(ymask) - y0 + 1
-        submask = binim[y0:(y0 + h), x0:(x0 + w)]
-        if (not np.array_equal(np.unique(submask), [0, 1]) and not
-                np.array_equal(np.unique(submask), [1])):
+        submask = binim[y0 : (y0 + h), x0 : (x0 + w)]
+        if not np.array_equal(np.unique(submask), [0, 1]) and not np.array_equal(
+            np.unique(submask), [1]
+        ):
             raise InvalidBinaryImage()
     else:
         if raise_on_no_mask:
@@ -112,8 +113,8 @@ def mask_from_binary_image(
 
 
 def masks_from_label_image(
-        labelim, rgba=None, z=None, c=None, t=None, text=None,
-        raise_on_no_mask=True):
+    labelim, rgba=None, z=None, c=None, t=None, text=None, raise_on_no_mask=True
+):
     """
     Create mask shapes from a label image (background=0)
 
@@ -130,7 +131,8 @@ def masks_from_label_image(
     """
     masks = []
     for i in range(1, labelim.max() + 1):
-        mask = mask_from_binary_image(labelim == i, rgba, z, c, t, text,
-                                      raise_on_no_mask)
+        mask = mask_from_binary_image(
+            labelim == i, rgba, z, c, t, text, raise_on_no_mask
+        )
         masks.append(mask)
     return masks
