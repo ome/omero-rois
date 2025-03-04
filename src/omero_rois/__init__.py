@@ -23,7 +23,7 @@ from .library import (
     mask_from_binary_image,
     masks_from_label_image,
     shape_to_binary_image,
-    masks_to_labels
+    masks_to_labels,
 )
 
 __all__ = (
@@ -32,5 +32,5 @@ __all__ = (
     "mask_from_binary_image",
     "masks_from_label_image",
     "shape_to_binary_image",
-    "masks_to_labels"
+    "masks_to_labels",
 )

@@ -21,12 +21,7 @@ import numpy as np
 from omero.gateway import ColorHolder
 from omero.model import MaskI, Shape
 from typing import Tuple, List, Dict, Set
-from omero.rtypes import (
-    rdouble,
-    rint,
-    rstring,
-    unwrap
-)
+from omero.rtypes import rdouble, rint, rstring, unwrap
 import re
 
 # Mapping of dimension names to axes in the image array
@@ -152,9 +147,7 @@ def masks_from_label_image(
     return masks
 
 
-def shape_to_binary_image(
-    shape: Shape
-) -> Tuple[np.ndarray, Tuple[int, ...]]:
+def shape_to_binary_image(shape: Shape) -> Tuple[np.ndarray, Tuple[int, ...]]:
     """
     Convert an OMERO shape to a binary image
 
@@ -203,8 +196,7 @@ def _mask_to_binary_image(
 
 
 def _polygon_to_binary_image(
-    polygon: Shape,
-    dtype=bool
+    polygon: Shape, dtype=bool
 ) -> Tuple[np.ndarray, Tuple[int, ...]]:
     """
     Convert an OMERO polygon to a binary image
@@ -304,14 +296,12 @@ def masks_to_labels(
             binim_yx, (t, c, z, y, x, h, w) = shape_to_binary_image(shape)
             for i_t in _get_indices(ignored_dimensions, "T", t, size_t):
                 for i_c in _get_indices(ignored_dimensions, "C", c, size_c):
-                    for i_z in _get_indices(
-                        ignored_dimensions, "Z", z, size_z
-                    ):
+                    for i_z in _get_indices(ignored_dimensions, "Z", z, size_z):
                         if check_overlaps and np.any(
                             np.logical_and(
-                                labels[
-                                    i_t, i_c, i_z, y : (y + h), x : (x + w)
-                                ].astype(bool),
+                                labels[i_t, i_c, i_z, y : (y + h), x : (x + w)].astype(
+                                    bool
+                                ),
                                 binim_yx,
                             )
                         ):
