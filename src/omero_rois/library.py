@@ -311,7 +311,7 @@ def masks_to_labels(
                             np.logical_and(
                                 labels[
                                     i_t, i_c, i_z, y : (y + h), x : (x + w)
-                                ].astype(np.bool),
+                                ].astype(bool),
                                 binim_yx,
                             )
                         ):
