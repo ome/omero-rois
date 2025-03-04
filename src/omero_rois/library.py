@@ -19,7 +19,7 @@
 
 import numpy as np
 from omero.gateway import ColorHolder
-from omero.model import MaskI, ShapeI
+from omero.model import MaskI, Shape
 from typing import Tuple, List, Dict, Set
 from omero.rtypes import (
     rdouble,
@@ -153,12 +153,12 @@ def masks_from_label_image(
 
 
 def shape_to_binary_image(
-    self, shape: ShapeI
+    shape: Shape
 ) -> Tuple[np.ndarray, Tuple[int, ...]]:
     """
     Convert an OMERO shape to a binary image
 
-    :param shape ShapeI: An OMERO shape
+    :param shape Shape: An OMERO shape
     :return: tuple of
             - Binary mask
             - (T, C, Z, Y, X, w, h) tuple of mask settings (T, C, Z may be
@@ -170,7 +170,7 @@ def shape_to_binary_image(
 
 
 def _mask_to_binary_image(
-    mask: ShapeI, dtype=np.bool
+    mask: Shape, dtype=bool
 ) -> Tuple[np.ndarray, Tuple[int, ...]]:
     """
     Convert an OMERO mask to a binary image
@@ -203,12 +203,13 @@ def _mask_to_binary_image(
 
 
 def _polygon_to_binary_image(
-    self, polygon: ShapeI
+    polygon: Shape,
+    dtype=bool
 ) -> Tuple[np.ndarray, Tuple[int, ...]]:
     """
     Convert an OMERO polygon to a binary image
 
-    :param polygon ShapeI: An OMERO polygon
+    :param polygon Shape: An OMERO polygon
     :return: tuple of
             - Binary mask
             - (T, C, Z, Y, X, w, h) tuple of mask settings (T, C, Z may be
@@ -232,7 +233,7 @@ def _polygon_to_binary_image(
     w = x_coords.max() - x
     h = y_coords.max() - y
 
-    img = np.zeros((h, w), dtype=self.dtype)
+    img = np.zeros((h, w), dtype=dtype)
 
     # coords *within* bounding box
     x_coords = x_coords - x
@@ -245,7 +246,6 @@ def _polygon_to_binary_image(
 
 
 def masks_to_labels(
-    self,
     masks: List[MaskI],
     mask_shape: Tuple[int, ...],
     ignored_dimensions: Set[str] = None,
