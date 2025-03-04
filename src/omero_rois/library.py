@@ -302,9 +302,9 @@ def masks_to_labels(
             if shape.fillColor:
                 fillColors[shape_value] = unwrap(shape.fillColor)
             binim_yx, (t, c, z, y, x, h, w) = shape_to_binary_image(shape)
-            for i_t in self._get_indices(ignored_dimensions, "T", t, size_t):
-                for i_c in self._get_indices(ignored_dimensions, "C", c, size_c):
-                    for i_z in self._get_indices(
+            for i_t in _get_indices(ignored_dimensions, "T", t, size_t):
+                for i_c in _get_indices(ignored_dimensions, "C", c, size_c):
+                    for i_z in _get_indices(
                         ignored_dimensions, "Z", z, size_z
                     ):
                         if check_overlaps and np.any(
@@ -325,3 +325,16 @@ def masks_to_labels(
                         )
 
     return labels, fillColors, properties
+
+
+def _get_indices(
+    ignored_dimensions: Set[str], d: str, d_value: int, d_size: int
+) -> List[int]:
+    """
+    Figures out which Z/C/T-planes a mask should be copied to
+    """
+    if d in ignored_dimensions:
+        return [0]
+    if d_value is not None:
+        return [d_value]
+    return range(d_size)
