@@ -126,6 +126,7 @@ setup(
     keywords=["OMERO.CLI", "plugin"],
     install_requires=[
         "omero-py>=5.6.0",
+        "scikit-image"
     ],
     python_requires=">=3",
     cmdclass={"test": PyTest},
