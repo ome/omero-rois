@@ -266,7 +266,7 @@ class TestSavedMasks(ITest):
             np_bool_data = shape_info[0]
             t, c, z, y, x, h, w = shape_info[1]
             assert (h, w) == expected_arr.shape
-            assert (y, x) == (omero_shape.getY(), omero_shape.getX())
+            assert (y, x) == (omero_shape.getY().val, omero_shape.getX().val)
             assert np.array_equal(np_bool_data * 1, expected_arr)
 
     def test_masks_to_labels(self) -> None:
