@@ -275,10 +275,11 @@ class TestSavedMasks(ITest):
         size_z = 5
         size_c = 2
         img_shape = (1, size_c, size_z, size_xy, size_xy)  # (T, C, Z, Y, X)
-        images = self.import_fake_file(
-            sizeC=size_c, sizeX=size_xy, sizeY=size_xy, sizeZ=size_z, client=self.client
+        blank_image = np.zeros((size_xy, size_xy), dtype=np.uint8)
+        im = self.conn.createImageFromNumpySeq(
+            iter([blank_image] * (size_z * size_c)),
+            "test_masks_to_labels", sizeZ=size_z, sizeC=size_c
         )
-        img_id = images[0].id.val
 
         # Create a mask
         from skimage.data import binary_blobs
@@ -292,14 +293,14 @@ class TestSavedMasks(ITest):
         new_rois = []
         for theC in range(size_c):
             roi = RoiI()
-            roi.setImage(images[0])
+            roi.setImage(omero.model.ImageI(im.id, False))
             for theZ in range(size_z):
                 mask = mask_from_binary_image(blobs, rgba=red, z=theZ, c=theC, t=0)
                 roi.addShape(mask)
             updateService = self.client.sf.getUpdateService()
             new_rois.append(updateService.saveAndReturnObject(roi))
 
-        rois = self.conn.getRoiService().findByImage(img_id, None)
+        rois = self.conn.getRoiService().findByImage(im.id, None)
         assert len(rois.rois) == size_c
         shapes = []
         for r in rois.rois:
