@@ -278,7 +278,9 @@ class TestSavedMasks(ITest):
         blank_image = np.zeros((size_xy, size_xy), dtype=np.uint8)
         im = self.conn.createImageFromNumpySeq(
             iter([blank_image] * (size_z * size_c)),
-            "test_masks_to_labels", sizeZ=size_z, sizeC=size_c
+            "test_masks_to_labels",
+            sizeZ=size_z,
+            sizeC=size_c,
         )
 
         # Create a mask
