@@ -37,7 +37,7 @@ from omero_rois import (
     mask_from_binary_image,
     masks_from_label_image,
     masks_to_labels,
-    shape_to_binary_image
+    shape_to_binary_image,
 )
 
 
@@ -275,8 +275,9 @@ class TestSavedMasks(ITest):
         size_z = 5
         size_c = 2
         img_shape = (1, size_c, size_z, size_xy, size_xy)  # (T, C, Z, Y, X)
-        images = self.import_fake_file(sizeC=size_c, sizeX=size_xy, sizeY=size_xy,
-                                       sizeZ=size_z, client=self.client)
+        images = self.import_fake_file(
+            sizeC=size_c, sizeX=size_xy, sizeY=size_xy, sizeZ=size_z, client=self.client
+        )
         img_id = images[0].id.val
 
         # Create a mask
