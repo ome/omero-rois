@@ -259,7 +259,7 @@ def masks_to_labels(
     """
 
     # FIXME: hard-coded dimensions
-    assert len(mask_shape) > 3
+    assert len(mask_shape) == 5, "must be a 5-tuple of (T, C, Z, Y, X)"
     size_t: int = mask_shape[0]
     size_c: int = mask_shape[1]
     size_z: int = mask_shape[2]
@@ -279,40 +279,39 @@ def masks_to_labels(
     fillColors: Dict[int, str] = {}
     properties: Dict[int, Dict] = {}
 
-    for count, shapes in enumerate(masks):
-        for shape in shapes:
-            # Using ROI ID allows stitching label from multiple images
-            # into a Plate and not creating duplicates from different iamges.
-            # All shapes will be the same value (color) for each ROI
-            shape_value = shape.roi.id.val
-            properties[shape_value] = {
-                "omero:shapeId": shape.id.val,
-                "omero:roiId": shape.roi.id.val,
-            }
-            if shape.textValue:
-                properties[shape_value]["omero:text"] = unwrap(shape.textValue)
-            if shape.fillColor:
-                fillColors[shape_value] = unwrap(shape.fillColor)
-            binim_yx, (t, c, z, y, x, h, w) = shape_to_binary_image(shape)
-            for i_t in _get_indices(ignored_dimensions, "T", t, size_t):
-                for i_c in _get_indices(ignored_dimensions, "C", c, size_c):
-                    for i_z in _get_indices(ignored_dimensions, "Z", z, size_z):
-                        if check_overlaps and np.any(
-                            np.logical_and(
-                                labels[i_t, i_c, i_z, y : (y + h), x : (x + w)].astype(
-                                    bool
-                                ),
-                                binim_yx,
-                            )
-                        ):
-                            raise Exception(
-                                f"Mask {shape_value} overlaps with existing labels"
-                            )
-                        # ADD to the array, so zeros in our binarray don't
-                        # wipe out previous shapes
-                        labels[i_t, i_c, i_z, y : (y + h), x : (x + w)] += (
-                            binim_yx * shape_value
+    for shape in masks:
+        # Using ROI ID allows stitching label from multiple images
+        # into a Plate and not creating duplicates from different iamges.
+        # All shapes will be the same value (color) for each ROI
+        shape_value = shape.roi.id.val
+        properties[shape_value] = {
+            "omero:shapeId": shape.id.val,
+            "omero:roiId": shape.roi.id.val,
+        }
+        if shape.textValue:
+            properties[shape_value]["omero:text"] = unwrap(shape.textValue)
+        if shape.fillColor:
+            fillColors[shape_value] = unwrap(shape.fillColor)
+        binim_yx, (t, c, z, y, x, h, w) = shape_to_binary_image(shape)
+        for i_t in _get_indices(ignored_dimensions, "T", t, size_t):
+            for i_c in _get_indices(ignored_dimensions, "C", c, size_c):
+                for i_z in _get_indices(ignored_dimensions, "Z", z, size_z):
+                    if check_overlaps and np.any(
+                        np.logical_and(
+                            labels[i_t, i_c, i_z, y : (y + h), x : (x + w)].astype(
+                                bool
+                            ),
+                            binim_yx,
                         )
+                    ):
+                        raise Exception(
+                            f"Mask {shape_value} overlaps with existing labels"
+                        )
+                    # ADD to the array, so zeros in our binarray don't
+                    # wipe out previous shapes
+                    labels[i_t, i_c, i_z, y : (y + h), x : (x + w)] += (
+                        binim_yx * shape_value
+                    )
 
     return labels, fillColors, properties
 
