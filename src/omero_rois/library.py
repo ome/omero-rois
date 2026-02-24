@@ -187,7 +187,7 @@ def _mask_to_binary_image(
 
     mask_packed = mask.getBytes()
     # convert bytearray into something we can use
-    intarray = np.fromstring(mask_packed, dtype=np.uint8)
+    intarray = np.frombuffer(mask_packed, dtype=np.uint8)
     binarray = np.unpackbits(intarray).astype(dtype)
     # truncate and reshape
     binarray = np.reshape(binarray[: (w * h)], (h, w))
