@@ -244,11 +244,11 @@ def masks_to_labels(
     check_overlaps: bool = True,
 ) -> Tuple[np.ndarray, Dict[int, str], Dict[int, Dict]]:
     """
-    :param masks [MaskI]: Iterable container of OMERO masks
+    :param masks List[MaskI]: List of OMERO masks
     :param mask_shape 5-tuple: the image dimensions (T, C, Z, Y, X), taking
         into account `ignored_dimensions`
 
-    :param ignored_dimensions set(char): Ignore these dimensions and set
+    :param ignored_dimensions Set[str]: Ignore these dimensions and set
         size to 1
 
     :param check_overlaps bool: Whether to check for overlapping masks or
