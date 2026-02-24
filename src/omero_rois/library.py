@@ -154,7 +154,7 @@ def shape_to_binary_image(shape: Shape) -> Tuple[np.ndarray, Tuple[int, ...]]:
     :param shape Shape: An OMERO shape
     :return: tuple of
             - Binary mask
-            - (T, C, Z, Y, X, w, h) tuple of mask settings (T, C, Z may be
+            - (T, C, Z, Y, X, h, w) tuple of mask settings (T, C, Z may be
             None)
     """
     if isinstance(shape, MaskI):
@@ -172,7 +172,7 @@ def _mask_to_binary_image(
     :param dtype: Data type for the binary image
     :return: tuple of
             - Binary mask
-            - (T, C, Z, Y, X, w, h) tuple of mask settings (T, C, Z may be
+            - (T, C, Z, Y, X, h, w) tuple of mask settings (T, C, Z may be
             None)
     """
 
@@ -204,7 +204,7 @@ def _polygon_to_binary_image(
     :param polygon Shape: An OMERO polygon
     :return: tuple of
             - Binary mask
-            - (T, C, Z, Y, X, w, h) tuple of mask settings (T, C, Z may be
+            - (T, C, Z, Y, X, h, w) tuple of mask settings (T, C, Z may be
             None)
     """
     from skimage.draw import polygon
