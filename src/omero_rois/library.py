@@ -279,11 +279,15 @@ def masks_to_labels(
     fillColors: Dict[int, str] = {}
     properties: Dict[int, Dict] = {}
 
+    roi_ids = [shape.roi.id.val for shape in masks]
+    sorted_roi_ids = list(set(roi_ids))
+    sorted_roi_ids.sort()
+
     for shape in masks:
         # Using ROI ID allows stitching label from multiple images
         # into a Plate and not creating duplicates from different iamges.
         # All shapes will be the same value (color) for each ROI
-        shape_value = shape.roi.id.val
+        shape_value = sorted_roi_ids.index(shape.roi.id.val) + 1
         properties[shape_value] = {
             "omero:shapeId": shape.id.val,
             "omero:roiId": shape.roi.id.val,

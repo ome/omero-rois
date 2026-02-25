@@ -313,10 +313,10 @@ class TestSavedMasks(ITest):
         assert labels.shape == img_shape
         assert labels.dtype == np.int64
         # The value of each label array corresponds to ROI ID
-        assert labels.max() == max(roi.id.val for roi in new_rois)
+        assert labels.max() == len(new_rois)
 
         for theC in range(size_c):
             for theZ in range(size_z):
                 mask = blobs.astype(bool)
-                expected_labels = np.where(mask, new_rois[theC].id.val, 0)
+                expected_labels = np.where(mask, theC + 1, 0)
                 assert np.array_equal(labels[0, theC, theZ], expected_labels)
