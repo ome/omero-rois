@@ -22,6 +22,8 @@ from .library import (
     InvalidBinaryImage,
     mask_from_binary_image,
     masks_from_label_image,
+    shape_to_binary_image,
+    masks_to_labels,
 )
 
 __all__ = (
@@ -29,4 +31,6 @@ __all__ = (
     "InvalidBinaryImage",
     "mask_from_binary_image",
     "masks_from_label_image",
+    "shape_to_binary_image",
+    "masks_to_labels",
 )

@@ -124,9 +124,7 @@ setup(
     zip_safe=True,
     download_url="%s/v%s.tar.gz" % (url, version),
     keywords=["OMERO.CLI", "plugin"],
-    install_requires=[
-        "omero-py>=5.6.0",
-    ],
+    install_requires=["omero-py>=5.6.0", "scikit-image"],
     python_requires=">=3",
     cmdclass={"test": PyTest},
     tests_require=["pytest"],
