@@ -33,6 +33,14 @@ DIMENSION_ORDER: Dict[str, int] = {
     "X": 4,
 }
 
+MASK_DTYPE_SIZE: Dict[int, np.dtype] = {
+    1: bool,
+    8: np.int8,
+    16: np.int16,
+    32: np.int32,
+    64: np.int64,
+}
+
 OME_MODEL_POINT_LIST_RE = re.compile(r"([\d.]+),([\d.]+)")
 
 
@@ -265,16 +273,11 @@ def masks_to_labels(
     size_z: int = mask_shape[2]
     ignored_dimensions = ignored_dimensions or set()
 
-    labels = np.zeros(mask_shape, np.int64)
-
     for d in "TCZYX":
         if d in ignored_dimensions:
             assert (
-                labels.shape[DIMENSION_ORDER[d]] == 1
+                mask_shape[DIMENSION_ORDER[d]] == 1
             ), f"Ignored dimension {d} should be size 1"
-        assert (
-            labels.shape == mask_shape
-        ), f"Invalid label shape: {labels.shape}, expected {mask_shape}"
 
     fillColors: Dict[int, str] = {}
     properties: Dict[int, Dict] = {}
@@ -282,6 +285,21 @@ def masks_to_labels(
     roi_ids = [shape.roi.id.val for shape in masks]
     sorted_roi_ids = list(set(roi_ids))
     sorted_roi_ids.sort()
+
+    # label values are 1...n
+    max_value = len(sorted_roi_ids)
+    # find most suitable dtype...
+    labels_dtype = np.int64
+    sorted_dtypes = [kv for kv in MASK_DTYPE_SIZE.items()]
+    sorted_dtypes.sort(key=lambda x: x[0])
+    # ignore first dtype (bool)
+    for int_dtype in sorted_dtypes[1:]:
+        dtype = int_dtype[1]
+        # choose first dtype that handles max_value
+        if np.iinfo(dtype).max >= max_value:
+            labels_dtype = dtype
+            break
+    labels = np.zeros(mask_shape, labels_dtype)
 
     for shape in masks:
         # Using ROI ID allows stitching label from multiple images

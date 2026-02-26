@@ -311,7 +311,7 @@ class TestSavedMasks(ITest):
         labels, fillColors, properties = masks_to_labels(shapes, img_shape)
         print("labels, fillColors, properties", labels, fillColors, properties)
         assert labels.shape == img_shape
-        assert labels.dtype == np.int64
+        assert labels.dtype == np.int8
         # The value of each label array corresponds to ROI ID
         assert labels.max() == len(new_rois)
 
