@@ -19,10 +19,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 """
-   Test of ROI mask utils
+Test of ROI mask utils
 
-   Copyright (C) 2020 University of Dundee. All rights reserved.
-   Use is subject to license terms supplied in LICENSE.txt
+Copyright (C) 2020 University of Dundee. All rights reserved.
+Use is subject to license terms supplied in LICENSE.txt
 """
 
 import omero.clients
